@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Circuito Loop - Petrobras</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+
+<body class="bg-slate-50 min-h-screen p-4 md:p-8">
+
+    <div class="max-w-6xl mx-auto">
+        <!-- Header -->
+        <header class="mb-8 text-center md:text-left flex flex-col md:flex-row md:justify-between md:items-end gap-4">
+            <div>
+                <h1 class="text-3xl font-bold text-slate-800">Circuito Loop</h1>
+                <p class="text-slate-500">Gestão de Estudos - Petrobras</p>
+            </div>
+            <div class="bg-white px-4 py-2 rounded-lg shadow-sm border border-slate-200 inline-block">
+                <span id="stats-total" class="text-indigo-600 font-bold">0</span> Sessões Registradas
+            </div>
+        </header>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+            <!-- Formulário -->
+            <div class="lg:col-span-1">
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 sticky top-8">
+                    <h2 id="form-title" class="text-xl font-semibold mb-6 text-slate-700 flex items-center gap-2">
+                        <i class="fas fa-plus-circle text-indigo-500"></i> Novo Registro
+                    </h2>
+
+                    <form id="study-form" class="space-y-4">
+                        <input type="hidden" id="edit-id">
+
+                        <div>
+                            <label class="block text-sm font-medium text-slate-600 mb-1">Matéria</label>
+                            <select id="materia" required
+                                class="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:outline-none transition-all">
+                                <option value="">Selecione...</option>
+                                <option value="Português">Português</option>
+                                <option value="Matemática">Matemática</option>
+                                <option value="Física">Física</option>
+                                <option value="Química">Química</option>
+                                <option value="Conhecimentos Específicos">Conhecimentos Específicos</option>
+                            </select>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-slate-600 mb-1">Início</label>
+                                <input type="time" id="inicio" required
+                                    class="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-slate-600 mb-1">Fim</label>
+                                <input type="time" id="fim" required
+                                    class="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-slate-600 mb-1">Data</label>
+                            <input type="date" id="data" required
+                                class="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-slate-600 mb-1">Revisão D1</label>
+                                <select id="revisao-d1" required
+                                    class="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                                    <option value="Pendente">Pendente</option>
+                                    <option value="Feito">Feito</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-slate-600 mb-1">Revisão D2</label>
+                                <select id="revisao-d2" required
+                                    class="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                                    <option value="Pendente">Pendente</option>
+                                    <option value="Feito">Feito</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-slate-600 mb-1">Questões</label>
+                            <select id="questoes" required
+                                class="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                                <option value="0">0</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                            </select>
+                        </div>
+
+                        <div class="pt-4 flex gap-2">
+                            <button type="submit" id="btn-submit"
+                                class="flex-1 bg-indigo-600 text-white font-semibold py-2 rounded-lg hover:bg-indigo-700 transition-colors shadow-md shadow-indigo-200">
+                                Salvar Registro
+                            </button>
+                            <button type="button" id="btn-cancel"
+                                class="hidden px-4 py-2 border border-slate-300 rounded-lg text-slate-600 hover:bg-slate-50 transition-colors">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Tabela/Lista -->
+            <div class="lg:col-span-2">
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                    <div class="overflow-x-auto custom-scrollbar">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-slate-50 border-bottom border-slate-200">
+                                    <th class="px-4 py-4 text-xs font-bold text-slate-500 uppercase">Matéria</th>
+                                    <th class="px-4 py-4 text-xs font-bold text-slate-500 uppercase">Período</th>
+                                    <th class="px-4 py-4 text-xs font-bold text-slate-500 uppercase text-center">
+                                        Revisões</th>
+                                    <th class="px-4 py-4 text-xs font-bold text-slate-500 uppercase text-center">Qst.
+                                    </th>
+                                    <th class="px-4 py-4 text-xs font-bold text-slate-500 uppercase text-right">Ações
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody id="table-body">
+                                <!-- Conteúdo inserido via JS -->
+                            </tbody>
+                        </table>
+                        <div id="empty-state" class="py-12 text-center text-slate-400 hidden">
+                            <i class="fas fa-calendar-day text-4xl mb-3 opacity-20"></i>
+                            <p>Nenhum registro encontrado.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="toast"
+        class="fixed bottom-8 right-8 bg-slate-800 text-white px-6 py-3 rounded-xl shadow-2xl transform translate-y-20 opacity-0 transition-all duration-300 flex items-center gap-3">
+        <span id="toast-icon"></span>
+        <span id="toast-msg"></span>
+    </div>
+
+    <script>
+        const studyForm = document.getElementById('study-form');
+        const tableBody = document.getElementById('table-body');
+        const emptyState = document.getElementById('empty-state');
+        const btnSubmit = document.getElementById('btn-submit');
+        const btnCancel = document.getElementById('btn-cancel');
+        const formTitle = document.getElementById('form-title');
+        const statsTotal = document.getElementById('stats-total');
+
+        let records = JSON.parse(localStorage.getItem('estudos_db')) || [];
+
+        function saveToStorage() {
+            localStorage.setItem('estudos_db', JSON.stringify(records));
+            renderTable();
+        }
+
+        function showToast(msg, icon = 'check') {
+            const toast = document.getElementById('toast');
+            const toastMsg = document.getElementById('toast-msg');
+            const toastIcon = document.getElementById('toast-icon');
+
+            toastMsg.innerText = msg;
+            toastIcon.innerHTML = `<i class="fas fa-${icon}-circle text-green-400"></i>`;
+
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3000);
+        }
+
+        function renderTable() {
+            tableBody.innerHTML = '';
+            statsTotal.innerText = records.length;
+
+            if (records.length === 0) {
+                emptyState.classList.remove('hidden');
+            } else {
+                emptyState.classList.add('hidden');
+
+                // Ordenar por data decrescente
+                const sortedRecords = [...records].sort((a, b) => new Date(b.data) - new Date(a.data));
+
+                sortedRecords.forEach(record => {
+                    const tr = document.createElement('tr');
+                    tr.className = "border-b border-slate-100 hover:bg-slate-50 transition-colors group";
+
+                    const dateFormatted = new Date(record.data + 'T00:00:00').toLocaleDateString('pt-BR');
+
+                    tr.innerHTML = `
+                        <td class="px-4 py-4">
+                            <div class="font-semibold text-slate-700">${record.materia}</div>
+                            <div class="text-xs text-slate-400">${dateFormatted}</div>
+                        </td>
+                        <td class="px-4 py-4">
+                            <div class="text-sm text-slate-600 flex items-center gap-2">
+                                <span class="bg-indigo-100 text-indigo-700 text-[10px] font-bold px-1.5 py-0.5 rounded">${record.inicio}</span>
+                                <span class="text-slate-300">→</span>
+                                <span class="bg-indigo-100 text-indigo-700 text-[10px] font-bold px-1.5 py-0.5 rounded">${record.fim}</span>
+                            </div>
+                        </td>
+                        <td class="px-4 py-4">
+                            <div class="flex justify-center gap-2">
+                                <span title="Revisão D1" class="w-8 h-8 rounded-full flex items-center justify-center text-[10px] font-bold ${record.revisaoD1 === 'Feito' ? 'bg-green-100 text-green-700' : 'bg-amber-50 text-amber-600 border border-amber-200'}">
+                                    D1
+                                </span>
+                                <span title="Revisão D2" class="w-8 h-8 rounded-full flex items-center justify-center text-[10px] font-bold ${record.revisaoD2 === 'Feito' ? 'bg-green-100 text-green-700' : 'bg-amber-50 text-amber-600 border border-amber-200'}">
+                                    D2
+                                </span>
+                            </div>
+                        </td>
+                        <td class="px-4 py-4 text-center">
+                            <span class="inline-flex items-center justify-center w-6 h-6 rounded-md bg-slate-100 text-slate-700 text-xs font-bold">
+                                ${record.questoes}
+                            </span>
+                        </td>
+                        <td class="px-4 py-4 text-right">
+                            <div class="flex justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                                <button onclick="editRecord('${record.id}')" class="p-2 text-slate-400 hover:text-indigo-600 transition-colors">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button onclick="deleteRecord('${record.id}')" class="p-2 text-slate-400 hover:text-red-500 transition-colors">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </td>
+                    `;
+                    tableBody.appendChild(tr);
+                });
+            }
+        }
+
+        studyForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const id = document.getElementById('edit-id').value;
+            const data = {
+                id: id || Date.now().toString(),
+                materia: document.getElementById('materia').value,
+                inicio: document.getElementById('inicio').value,
+                fim: document.getElementById('fim').value,
+                data: document.getElementById('data').value,
+                revisaoD1: document.getElementById('revisao-d1').value,
+                revisaoD2: document.getElementById('revisao-d2').value,
+                questoes: document.getElementById('questoes').value
+            };
+
+            if (id) {
+                const index = records.findIndex(r => r.id === id);
+                records[index] = data;
+                showToast('Registro atualizado!');
+            } else {
+                records.push(data);
+                showToast('Novo registro salvo!');
+            }
+
+            resetForm();
+            saveToStorage();
+        });
+
+        function resetForm() {
+            studyForm.reset();
+            document.getElementById('edit-id').value = '';
+            btnSubmit.innerText = 'Salvar Registro';
+            formTitle.innerHTML = `<i class="fas fa-plus-circle text-indigo-500"></i> Novo Registro`;
+            btnCancel.classList.add('hidden');
+        }
+
+        function editRecord(id) {
+            const record = records.find(r => r.id === id);
+            if (!record) return;
+
+            document.getElementById('edit-id').value = record.id;
+            document.getElementById('materia').value = record.materia;
+            document.getElementById('inicio').value = record.inicio;
+            document.getElementById('fim').value = record.fim;
+            document.getElementById('data').value = record.data;
+            document.getElementById('revisao-d1').value = record.revisaoD1;
+            document.getElementById('revisao-d2').value = record.revisaoD2;
+            document.getElementById('questoes').value = record.questoes;
+
+            btnSubmit.innerText = 'Atualizar';
+            formTitle.innerHTML = `<i class="fas fa-pen text-indigo-500"></i> Editando Registro`;
+            btnCancel.classList.remove('hidden');
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function deleteRecord(id) {
+            if (confirm('Deseja realmente excluir este registro?')) {
+                records = records.filter(r => r.id !== id);
+                saveToStorage();
+                showToast('Registro excluído', 'trash');
+            }
+        }
+
+        btnCancel.addEventListener('click', resetForm);
+
+        // Inicialização
+        renderTable();
+    </script>
+</body>
+
+</html>
